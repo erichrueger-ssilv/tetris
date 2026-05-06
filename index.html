@@ -507,17 +507,23 @@
       }
     }
 
-    // Ghost piece
+    // Ghost piece — wireframe
     if (currentPiece && running && !gameOver) {
       const gy = ghostY();
       const rot = currentPiece.rot;
       const cells = TETROS[currentPiece.type][rot];
       ctx.save();
-      ctx.globalAlpha = 0.18;
+      ctx.strokeStyle = COLORS[currentPiece.type];
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = 0.55;
       for (const [cx, cy] of cells) {
         const nx = currentPiece.x + cx;
         const ny = gy + cy;
-        if (ny >= 0) drawCell(ctx, nx, ny, COLORS[currentPiece.type]);
+        if (ny >= 0) {
+          const px = nx * CELL_SIZE + 1;
+          const py = ny * CELL_SIZE + 1;
+          ctx.strokeRect(px, py, CELL_SIZE - 2, CELL_SIZE - 2);
+        }
       }
       ctx.restore();
     }
